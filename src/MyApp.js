@@ -7,11 +7,21 @@ import axios from 'axios';
 function MyApp() {
   const [characters, setCharacters] = useState([]);
 
-  function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-        return i !== index
+  async function removeOneCharacter(index) {
+    console.log(characters[index]);
+    let userUrl = "http://localhost:5000/users/" + characters[index].id;
+    let response = "";
+    try {
+      response = await axios.delete(userUrl);
+      const updated = characters.filter((character, i) => {
+        return i !== index;
       });
       setCharacters(updated);
+    }
+    catch(error){
+      console.log(error);
+    }
+    return response;
   }
 
   function updateList(person) { 
